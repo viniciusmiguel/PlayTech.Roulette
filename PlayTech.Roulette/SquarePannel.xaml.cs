@@ -55,6 +55,16 @@ namespace PlayTech.Roulette
             }
             
         }
+        public Thickness ViewBoxMargin {
+            get
+            {
+                return vb.Margin;
+            }
+            set
+            {
+                vb.Margin = value;
+            }
+         }
         public Color BackColor
         {
             set

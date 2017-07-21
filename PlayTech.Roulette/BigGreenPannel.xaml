@@ -6,7 +6,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="70" SizeChanged="UserControl_SizeChanged">
     <Grid>
-        <Image x:Name="Img" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Center" Source="pack://siteoforigin:,,,/Resources/buttom.png" />
-        <TextBlock x:Name="number"  Grid.RowSpan="3" Text="0" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="Img" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Center" Source="pack://siteoforigin:,,,/Resources/buttom.png" />
+        <Viewbox Grid.Column="1" Margin="10" Stretch="Uniform" StretchDirection="Both" MaxHeight="60">
+            <TextBlock x:Name="number"  Grid.RowSpan="3" Text="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Viewbox>
+        
     </Grid>
 </UserControl>

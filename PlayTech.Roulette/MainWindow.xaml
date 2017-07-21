@@ -54,7 +54,7 @@
         <local:SquarePannel x:Name="N30" BackColor="Red" Text="30" Grid.Column="12" Grid.Row="1"/>
         <local:SquarePannel x:Name="N33" BackColor="#ff113311" Text="33" Grid.Column="13" Grid.Row="1"/>
         <local:SquarePannel x:Name="N36" BackColor="Red" Text="36" Grid.Column="14" Grid.Row="1"/>
-        <local:SquarePannel x:Name="GroupC" BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="1"/>
+        <local:SquarePannel x:Name="GroupC" ViewBoxMargin="5"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="1"/>
         <!-- SECOND LINE -->
         <local:SquarePannel x:Name="N2" BackColor="#ff113311" Text="2" Grid.Column="3" Grid.Row="2"/>
         <local:SquarePannel x:Name="N5"  BackColor="Red" Text="5" Grid.Column="4" Grid.Row="2"/>
@@ -68,7 +68,7 @@
         <local:SquarePannel x:Name="N29"  BackColor="#ff113311" Text="29" Grid.Column="12" Grid.Row="2"/>
         <local:SquarePannel x:Name="N32"  BackColor="Red" Text="32" Grid.Column="13" Grid.Row="2"/>
         <local:SquarePannel x:Name="N35"  BackColor="#ff113311" Text="35" Grid.Column="14" Grid.Row="2"/>
-        <local:SquarePannel x:Name="GroupB"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="2"/>
+        <local:SquarePannel x:Name="GroupB" ViewBoxMargin="5"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="2"/>
         <!-- THIRD LINE -->
         <local:SquarePannel x:Name="N1"  BackColor="Red" Text="1" Grid.Column="3" Grid.Row="3"/>
         <local:SquarePannel x:Name="N4"  BackColor="#ff113311" Text="4" Grid.Column="4" Grid.Row="3"/>
@@ -82,7 +82,7 @@
         <local:SquarePannel x:Name="N28"  BackColor="#ff113311" Text="28" Grid.Column="12" Grid.Row="3"/>
         <local:SquarePannel x:Name="N31"  BackColor="#ff113311" Text="31" Grid.Column="13" Grid.Row="3"/>
         <local:SquarePannel x:Name="N34"  BackColor="Red" Text="34" Grid.Column="14" Grid.Row="3"/>
-        <local:SquarePannel x:Name="GroupA"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="3"/>
+        <local:SquarePannel x:Name="GroupA" ViewBoxMargin="5"   BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="3"/>
         <!-- FORTH LINE -->
         <local:SquarePannel x:Name="FirstDozen" BackColor="#ff111111" Text="1st 12" Grid.Column="3" Grid.Row="4"
                             Grid.ColumnSpan="4"/>

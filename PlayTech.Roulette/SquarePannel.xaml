@@ -8,11 +8,11 @@
     <Grid x:Name="g">
         <Rectangle x:Name="rec" RadiusX="3" RadiusY="3"  Fill="Red" 
                    Stroke="WhiteSmoke" Margin="2"/>
+        <Viewbox x:Name="vb" Stretch="Uniform" Margin="10" MaxHeight="60">
         <TextBlock x:Name="number" 
                    Text="0" 
                    Foreground="Black" 
                    FontWeight="DemiBold" 
-                   FontSize="12"
                    VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -23,5 +23,6 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
+        </Viewbox>
     </Grid>
 </UserControl>

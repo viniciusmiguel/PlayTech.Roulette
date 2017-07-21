@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
 
@@ -17,8 +16,8 @@ namespace PlayTech.Roulette
             InitializeComponent();
             t = new System.Timers.Timer(10000); // 10 Seconds of notification
             t.Elapsed += T_Elapsed;
-            server = new RouletteHttp();
-            server.EvHandler += serverHandler;
+            server = new RouletteHttp("http://localhost:4948/");
+            server.ReceivedPkgHandler += serverHandler;
             server.StartServer();
         }
         ~MainWindow()
@@ -401,7 +400,11 @@ namespace PlayTech.Roulette
                 GroupA.IsActive ? "Column A" : GroupB.IsActive ? "Column B" : "Column C", OneTo18.IsActive ? "Low" : "High");
             t.Start();
         }
-
+        /// <summary>
+        /// Clean the resources before exit the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
             server.StopServer();

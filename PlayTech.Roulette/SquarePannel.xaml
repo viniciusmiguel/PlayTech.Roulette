@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="50" SizeChanged="UserControl_SizeChanged">
+             d:DesignHeight="50" d:DesignWidth="50">
     <Grid x:Name="g">
         <Rectangle x:Name="rec" RadiusX="3" RadiusY="3"  Fill="Red" 
                    Stroke="WhiteSmoke" Margin="2"/>

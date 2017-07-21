@@ -15,6 +15,9 @@ namespace PlayTech.Roulette
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// If true change the picture for an active state picture
+        /// </summary>
         public bool IsActive {
             set
             {
@@ -29,6 +32,9 @@ namespace PlayTech.Roulette
                 return _active;
             }
         }
+        /// <summary>
+        /// Change between the normal state picture and active picture, adjust the Text color
+        /// </summary>
         private void Animate()
         {
             this.Dispatcher.Invoke(() => {
@@ -46,6 +52,9 @@ namespace PlayTech.Roulette
                 }
             });            
         }
+        /// <summary>
+        /// The Display Text
+        /// </summary>
         public string Text {
             get
             {
@@ -55,11 +64,6 @@ namespace PlayTech.Roulette
             {
                 number.Text = value;
             }
-        }
-  
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
         }
     }
 }

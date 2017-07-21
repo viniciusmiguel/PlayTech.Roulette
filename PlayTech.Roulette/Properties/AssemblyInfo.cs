@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PlayTech.Roulette")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Exercise from PlayTech for job evaluation")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("PlayTech")]
 [assembly: AssemblyProduct("PlayTech.Roulette")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Vinicius Miguel  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

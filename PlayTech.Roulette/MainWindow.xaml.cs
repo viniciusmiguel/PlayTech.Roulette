@@ -132,20 +132,22 @@ namespace PlayTech.Roulette
         private void T_Elapsed(object sender, ElapsedEventArgs e)
         {
             _ExibitionTimer.Stop();
-            N0.IsActive = false;
             this.Dispatcher.Invoke(() =>
             {
                 foreach (var c in GetControls(this))
                 {
                     if (c is SquarePannel sp )
                     {
-                        sp.IsActive = false;
+                       if(sp.Name != "")
+                            sp.IsActive = false;
                     }
                     if(c is BigGreenPannel bgp)
                     {
                         bgp.IsActive = false;
                     }
                 }
+                for (int i = 0; i < _Numbers.Length; i++)
+                    _Numbers[i].IsActive = false;
             });
             Popup.Hide();
         }

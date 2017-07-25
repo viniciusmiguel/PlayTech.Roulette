@@ -1,5 +1,5 @@
 ﻿
-namespace PlayTech.Roulette
+namespace PlayTech.Model
 {
     /*
      * This is the correct input following the JSON specification
@@ -14,7 +14,7 @@ namespace PlayTech.Roulette
         } 
     */
 
-    public class PlaytechInputSchema
+    public class RouletteJsonModel
     {
         public string Qualifier { get; set; }
         public string Correlation { get; set; }

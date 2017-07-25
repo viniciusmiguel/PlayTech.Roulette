@@ -42,47 +42,86 @@
         <!-- BIG GREEN FLAG -->
         <local:BigGreenPannel x:Name="N0" Text="0" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
         <!-- FIRST LINE -->
-        <local:SquarePannel x:Name="N3" BackColor="Red" Text="3" Grid.Column="3" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N6" BackColor="#ff113311" Text="6" Grid.Column="4" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N9" BackColor="Red" Text="9" Grid.Column="5" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N12" BackColor="Red" Text="12" Grid.Column="6" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N15" BackColor="#ff113311" Text="15" Grid.Column="7" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N18" BackColor="Red" Text="18" Grid.Column="8" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N21" BackColor="Red" Text="21" Grid.Column="9" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N24" BackColor="#ff113311" Text="24" Grid.Column="10" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N27" BackColor="Red" Text="27" Grid.Column="11" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N30" BackColor="Red" Text="30" Grid.Column="12" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N33" BackColor="#ff113311" Text="33" Grid.Column="13" Grid.Row="1"/>
-        <local:SquarePannel x:Name="N36" BackColor="Red" Text="36" Grid.Column="14" Grid.Row="1"/>
-        <local:SquarePannel x:Name="GroupC" ViewBoxMargin="5"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[3].Color}" Text="{Binding Path=Numbers[3].Label}" 
+                            IsActive="{Binding Path=Numbers[3].IsActive}" Grid.Column="3" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[6].Color}" Text="{Binding Path=Numbers[6].Label}" 
+                            IsActive="{Binding Path=Numbers[6].IsActive}" Grid.Column="4" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[9].Color}" Text="{Binding Path=Numbers[9].Label}" 
+                            IsActive="{Binding Path=Numbers[9].IsActive}" Grid.Column="5" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[12].Color}" Text="{Binding Path=Numbers[12].Label}" 
+                            IsActive="{Binding Path=Numbers[12].IsActive}" Grid.Column="6" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[13].Color}" Text="{Binding Path=Numbers[15].Label}" 
+                            IsActive="{Binding Path=Numbers[13].IsActive}" Grid.Column="7" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[18].Color}" Text="{Binding Path=Numbers[18].Label}" 
+                            IsActive="{Binding Path=Numbers[18].IsActive}" Grid.Column="8" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[21].Color}" Text="{Binding Path=Numbers[21].Label}" 
+                            IsActive="{Binding Path=Numbers[21].IsActive}" Grid.Column="9" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[24].Color}" Text="{Binding Path=Numbers[24].Label}" 
+                            IsActive="{Binding Path=Numbers[24].IsActive}" Grid.Column="10" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[27].Color}" Text="{Binding Path=Numbers[27].Label}" 
+                            IsActive="{Binding Path=Numbers[27].IsActive}" Grid.Column="11" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[30].Color}" Text="{Binding Path=Numbers[30].Label}" 
+                            IsActive="{Binding Path=Numbers[30].IsActive}" Grid.Column="12" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[33].Color}" Text="{Binding Path=Numbers[33].Label}" 
+                            IsActive="{Binding Path=Numbers[33].IsActive}" Grid.Column="13" Grid.Row="1"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[36].Color}" Text="{Binding Path=Numbers[36].Label}" 
+                            IsActive="{Binding Path=Numbers[36].IsActive}" Grid.Column="14" Grid.Row="1"/>
+        <local:SquarePannel x:Name="GroupC" ViewBoxMargin="5"  BackColor="#ff111111" Text="2to1" 
+                            VerticalText="True" Grid.Column="15" Grid.Row="1"/>
         <!-- SECOND LINE -->
-        <local:SquarePannel x:Name="N2" BackColor="#ff113311" Text="2" Grid.Column="3" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N5"  BackColor="Red" Text="5" Grid.Column="4" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N8"  BackColor="#ff113311" Text="8" Grid.Column="5" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N11"  BackColor="#ff113311" Text="11" Grid.Column="6" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N14"  BackColor="Red" Text="14" Grid.Column="7" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N17"  BackColor="#ff113311" Text="17" Grid.Column="8" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N20"  BackColor="#ff113311" Text="20" Grid.Column="9" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N23"  BackColor="Red" Text="23" Grid.Column="10" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N26"  BackColor="#ff113311" Text="26" Grid.Column="11" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N29"  BackColor="#ff113311" Text="29" Grid.Column="12" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N32"  BackColor="Red" Text="32" Grid.Column="13" Grid.Row="2"/>
-        <local:SquarePannel x:Name="N35"  BackColor="#ff113311" Text="35" Grid.Column="14" Grid.Row="2"/>
-        <local:SquarePannel x:Name="GroupB" ViewBoxMargin="5"  BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[2].Color}" Text="{Binding Path=Numbers[2].Label}" 
+                            IsActive="{Binding Path=Numbers[2].IsActive}" Grid.Column="3" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[5].Color}" Text="{Binding Path=Numbers[5].Label}" 
+                            IsActive="{Binding Path=Numbers[5].IsActive}" Grid.Column="4" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[8].Color}" Text="{Binding Path=Numbers[8].Label}" 
+                            IsActive="{Binding Path=Numbers[8].IsActive}" Grid.Column="5" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[11].Color}" Text="{Binding Path=Numbers[11].Label}" 
+                            IsActive="{Binding Path=Numbers[11].IsActive}" Grid.Column="6" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[14].Color}" Text="{Binding Path=Numbers[14].Label}" 
+                            IsActive="{Binding Path=Numbers[14].IsActive}" Grid.Column="7" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[17].Color}" Text="{Binding Path=Numbers[17].Label}" 
+                            IsActive="{Binding Path=Numbers[17].IsActive}" Grid.Column="8" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[20].Color}" Text="{Binding Path=Numbers[20].Label}" 
+                            IsActive="{Binding Path=Numbers[20].IsActive}" Grid.Column="9" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[23].Color}" Text="{Binding Path=Numbers[23].Label}" 
+                            IsActive="{Binding Path=Numbers[23].IsActive}" Grid.Column="10" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[26].Color}" Text="{Binding Path=Numbers[26].Label}" 
+                            IsActive="{Binding Path=Numbers[26].IsActive}" Grid.Column="11" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[29].Color}" Text="{Binding Path=Numbers[29].Label}" 
+                            IsActive="{Binding Path=Numbers[29].IsActive}" Grid.Column="12" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[32].Color}" Text="{Binding Path=Numbers[32].Label}" 
+                            IsActive="{Binding Path=Numbers[32].IsActive}" Grid.Column="13" Grid.Row="2"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[35].Color}" Text="{Binding Path=Numbers[35].Label}" 
+                            IsActive="{Binding Path=Numbers[35].IsActive}" Grid.Column="14" Grid.Row="2"/>
+        <local:SquarePannel x:Name="GroupB" ViewBoxMargin="5"  BackColor="#ff111111" 
+                            Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="2"/>
         <!-- THIRD LINE -->
-        <local:SquarePannel x:Name="N1"  BackColor="Red" Text="1" Grid.Column="3" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N4"  BackColor="#ff113311" Text="4" Grid.Column="4" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N7"  BackColor="Red" Text="7" Grid.Column="5" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N10"  BackColor="#ff113311" Text="10" Grid.Column="6" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N13"  BackColor="#ff113311" Text="13" Grid.Column="7" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N16"  BackColor="Red" Text="16" Grid.Column="8" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N19"  BackColor="Red" Text="19" Grid.Column="9" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N22"  BackColor="#ff113311" Text="22" Grid.Column="10" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N25"  BackColor="Red" Text="25" Grid.Column="11" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N28"  BackColor="#ff113311" Text="28" Grid.Column="12" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N31"  BackColor="#ff113311" Text="31" Grid.Column="13" Grid.Row="3"/>
-        <local:SquarePannel x:Name="N34"  BackColor="Red" Text="34" Grid.Column="14" Grid.Row="3"/>
-        <local:SquarePannel x:Name="GroupA" ViewBoxMargin="5"   BackColor="#ff111111" Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[1].Color}" Text="{Binding Path=Numbers[1].Label}"
+                            IsActive="{Binding Path=Numbers[1].IsActive}" Grid.Column="3" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[4].Color}" Text="{Binding Path=Numbers[4].Label}"
+                            IsActive="{Binding Path=Numbers[4].IsActive}" Grid.Column="4" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[7].Color}" Text="{Binding Path=Numbers[7].Label}"
+                            IsActive="{Binding Path=Numbers[7].IsActive}" Grid.Column="5" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[10].Color}" Text="{Binding Path=Numbers[10].Label}" 
+                            IsActive="{Binding Path=Numbers[10].IsActive}" Grid.Column="6" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[13].Color}" Text="{Binding Path=Numbers[13].Label}"
+                            IsActive="{Binding Path=Numbers[13].IsActive}" Grid.Column="7" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[16].Color}" Text="{Binding Path=Numbers[16].Label}"
+                            IsActive="{Binding Path=Numbers[16].IsActive}" Grid.Column="8" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[19].Color}" Text="{Binding Path=Numbers[19].Label}"
+                            IsActive="{Binding Path=Numbers[19].IsActive}" Grid.Column="9" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[22].Color}" Text="{Binding Path=Numbers[22].Label}"
+                            IsActive="{Binding Path=Numbers[22].IsActive}" Grid.Column="10" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[25].Color}" Text="{Binding Path=Numbers[25].Label}"
+                            IsActive="{Binding Path=Numbers[25].IsActive}" Grid.Column="11" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[28].Color}" Text="{Binding Path=Numbers[28].Label}"
+                            IsActive="{Binding Path=Numbers[28].IsActive}" Grid.Column="12" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[31].Color}" Text="{Binding Path=Numbers[31].Label}"
+                            IsActive="{Binding Path=Numbers[31].IsActive}" Grid.Column="13" Grid.Row="3"/>
+        <local:SquarePannel BackColor="{Binding Path=Numbers[34].Color}" Text="{Binding Path=Numbers[34].Label}"
+                            IsActive="{Binding Path=Numbers[34].IsActive}" Grid.Column="14" Grid.Row="3"/>
+        <local:SquarePannel x:Name="GroupA" ViewBoxMargin="5"   BackColor="#ff111111" 
+                            Text="2to1" VerticalText="True" Grid.Column="15" Grid.Row="3"/>
         <!-- FORTH LINE -->
         <local:SquarePannel x:Name="FirstDozen" BackColor="#ff111111" Text="1st 12" Grid.Column="3" Grid.Row="4"
                             Grid.ColumnSpan="4"/>
@@ -95,9 +134,9 @@
                             Grid.ColumnSpan="2"/>
         <local:SquarePannel x:Name="Even" BackColor="#ff111111" Text="Even" Grid.Column="5" Grid.Row="5"
                             Grid.ColumnSpan="2"/>
-        <local:SquarePannel x:Name="Black" BackColor="#ff111111" Text="" Grid.Column="7" Grid.Row="5"
+        <local:SquarePannel x:Name="Black" BackColor="#ff111111" Text=" " Grid.Column="7" Grid.Row="5"
                             Grid.ColumnSpan="2"/>
-        <local:SquarePannel x:Name="Red" BackColor="Red" Text="" Grid.Column="9" Grid.Row="5"
+        <local:SquarePannel x:Name="Red" BackColor="Red" Text=" " Grid.Column="9" Grid.Row="5"
                             Grid.ColumnSpan="2"/>
         <local:SquarePannel x:Name="Odd" BackColor="#ff111111" Text="Odd" Grid.Column="11" Grid.Row="5"
                             Grid.ColumnSpan="2"/>

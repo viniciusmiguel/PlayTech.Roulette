@@ -11,28 +11,32 @@ namespace PlayTech.Roulette
     {
         private bool _vertical = false;
         bool _active = false;
-        Color _oldColor = Colors.Black;
+        Color _oldColor;
         public SquarePannel()
         {
             InitializeComponent();
+        } 
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(SquarePannel), new
+            PropertyMetadata(false, new PropertyChangedCallback(OnIsActiveChanged)));
+
+        public bool IsActive
+        {
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
         }
-        /// <summary>
-        /// Get or Set the Active status of the component witch cause it to change for cyan color
-        /// Back to old color when the status is false
-        /// </summary>
-        public bool IsActive {
-            set
-            {
-                if(value != _active)
-                {
-                    _active = value;
-                    Animate();
-                }
-            }
-            get
-            {
-                return _active;
-            }
+
+        private static void OnIsActiveChanged(DependencyObject d,
+           DependencyPropertyChangedEventArgs e)
+        {
+            SquarePannel Control = d as SquarePannel;
+            Control.OnIsActiveChanged(e);
+        }
+
+        private void OnIsActiveChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _active = (bool) e.NewValue;
+            Animate();
         }
         /// <summary>
         /// Deals with the color change
@@ -47,8 +51,8 @@ namespace PlayTech.Roulette
                 }
                 else
                 {
-                    rec.Fill = new SolidColorBrush(_oldColor);
-                    if (_oldColor == Colors.Red)
+                    rec.Fill = new SolidColorBrush(FillColor);
+                    if (FillColor == Colors.Red)
                         number.Foreground = Brushes.Black;
                     else
                         number.Foreground = Brushes.White;
@@ -68,10 +72,29 @@ namespace PlayTech.Roulette
                 vb.Margin = value;
             }
          }
-        /// <summary>
-        /// Color of the component if red the text become black
-        /// </summary>
+        //Color Property
+        public static readonly DependencyProperty BackColorProperty =
+            DependencyProperty.Register("BackColor", typeof(Color), typeof(SquarePannel), new
+            PropertyMetadata(Colors.Red, new PropertyChangedCallback(OnBackColorChanged)));
+
         public Color BackColor
+        {
+            get { return (Color)GetValue(BackColorProperty); }
+            set { SetValue(BackColorProperty, value); }
+        }
+
+        private static void OnBackColorChanged(DependencyObject d,
+           DependencyPropertyChangedEventArgs e)
+        {
+            SquarePannel Control = d as SquarePannel;
+            Control.OnBackColorChanged(e);
+        }
+
+        private void OnBackColorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            FillColor = (Color)e.NewValue;
+        }
+        private Color FillColor
         {
             set
             {
@@ -82,19 +105,32 @@ namespace PlayTech.Roulette
                 else
                     number.Foreground = Brushes.White;
             }
-        }
-        /// <summary>
-        /// The text displayed in GUI
-        /// </summary>
-        public string Text {
             get
             {
-                return number.Text;
+                return _oldColor;
             }
-            set
-            {
-                number.Text = value;
-            }
+        }
+
+        public static readonly DependencyProperty TextProperty =
+         DependencyProperty.Register("Text", typeof(string), typeof(SquarePannel), new
+            PropertyMetadata("", new PropertyChangedCallback(OnTextChanged)));
+
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        private static void OnTextChanged(DependencyObject d,
+           DependencyPropertyChangedEventArgs e)
+        {
+            SquarePannel Control = d as SquarePannel;
+            Control.OnTextChanged(e);
+        }
+
+        private void OnTextChanged(DependencyPropertyChangedEventArgs e)
+        {
+            number.Text = e.NewValue.ToString();
         }
         /// <summary>
         /// If true change the rotation of the displayed text to Vertical

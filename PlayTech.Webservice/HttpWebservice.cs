@@ -1,50 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using Newtonsoft.Json;
 using System.Net;
 using System.Threading;
 using System.IO;
 
-namespace PlayTech.Roulette
+namespace PlayTech.Webservice
 {
     /// <summary>
     /// Http server implementation for receiving roulette bets
     /// </summary>
-    public class RouletteHttp
+    public class HttpWebservice<T> where T : class
     {
-        HttpListener listener = null;
-        Thread t = null;
+        private HttpListener listener = null;
+        private Thread t = null;
+
         /// <summary>
         /// Instantiate a Http Server
         /// </summary>
         /// <param name="url">the URL that the server answers</param>
-        public RouletteHttp(string url)
+        public HttpWebservice(string url) 
         {
             listener = new HttpListener();
             t = new Thread(T_main);
             listener.Prefixes.Add(url);
         }
-        ~RouletteHttp()
+        ~HttpWebservice()
         {
             t = null;
             listener = null;
         }
         /// <summary>
-        /// Arguments of a Roulette Server Event
-        /// </summary>
-        public class RouletteEventArgs : EventArgs
-        {
-            public int number;
-            public Int64 correlation;
-        }
-        /// <summary>
         /// Handler for Packets incoming from Http Server
         /// </summary>
-        public EventHandler<RouletteEventArgs> ReceivedPkgHandler;
+        public EventHandler<HttpWebServerEventArgs<T>> ReceivedPkgHandler;
+        /// <summary>
+        /// Handler for an Exception in Http Server
+        /// </summary>
+        public EventHandler<WebException> HttpWebserverException;
         /// <summary>
         /// Http Server Thread
         /// </summary>
@@ -64,15 +57,13 @@ namespace PlayTech.Roulette
                             var js = reader.ReadToEnd(); // Read the body and stores for JSON parse trial
                             try
                             {
-                                PlaytechInputSchema schema = JsonConvert.DeserializeObject<PlaytechInputSchema>(js);
+                                T schema = JsonConvert.DeserializeObject<T>(js);
                                 if (ReceivedPkgHandler != null)
-                                {
-                                    var a = new RouletteEventArgs();
-                                    //Try parse the numbers, if not valid integers ignore the packet
-                                    if (int.TryParse(schema.Data.WinningNumber, out a.number) && 
-                                            Int64.TryParse(schema.Correlation, out a.correlation))
-                                                ReceivedPkgHandler?.Invoke(this, a);
-                                }
+                                    ReceivedPkgHandler?.Invoke(this, new HttpWebServerEventArgs<T>()
+                                    {
+                                        SchemaObject = schema
+                                    });
+                               
                             }
                             catch // The JSON provided not match the Schema, give to the user an answer and ignore the content
                             {
@@ -95,7 +86,7 @@ namespace PlayTech.Roulette
             }
             catch(WebException we)
             {
-                System.Windows.MessageBox.Show("The HTTP Server Cannot Execute the Assignment Task\n" + we.Message );
+                HttpWebserverException?.Invoke(this, we);
             }
             catch(Exception)
             {

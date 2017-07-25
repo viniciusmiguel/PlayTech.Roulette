@@ -1,34 +1,127 @@
-﻿using System;
+﻿using PlayTech.Model;
+using PlayTech.Webservice;
+using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
+using System.Windows.Media;
+using System.Net;
+using System.ComponentModel;
 
 namespace PlayTech.Roulette
 {
+    public class Num : INotifyPropertyChanged
+    {
+        public string Label { get; set; }
+        private bool _IsActive;
+        public bool IsActive {
+            get
+            {
+                return _IsActive;
+            }
+            set
+            {
+                _IsActive = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsActive"));
+            }
+        }
+        public Color Color {get; set;}
+        public event PropertyChangedEventHandler PropertyChanged;
+    };
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        System.Timers.Timer t;
-        RouletteHttp server;
+        Timer _ExibitionTimer;
+        HttpWebservice<RouletteJsonModel> _Server;
+        private Num[] _Numbers;
+
         public MainWindow()
         {
+            _Numbers = new Num[37];
+            for (int i = 0; i < _Numbers.Length; i++)
+            {
+                _Numbers[i] = new Num();
+                _Numbers[i].Label = i.ToString();
+                _Numbers[i].IsActive = false;
+                if(i <=10)
+                {
+                    if ((i & 0x1) == 1)
+                        _Numbers[i].Color = Colors.Red;
+                    else
+                        _Numbers[i].Color = Color.FromArgb(0xff, 0x11, 0x33, 0x11);
+                }
+                else if(i>10 && i <=18 )
+                {
+                    if ((i & 0x1) != 1)
+                        _Numbers[i].Color = Colors.Red;
+                    else
+                        _Numbers[i].Color = Color.FromArgb(0xff, 0x11, 0x33, 0x11);
+                }
+                else if (i > 18 && i <=28)
+                {
+                    if ((i & 0x1) == 1)
+                        _Numbers[i].Color = Colors.Red;
+                    else
+                        _Numbers[i].Color = Color.FromArgb(0xff, 0x11, 0x33, 0x11);
+                }
+                else
+                {
+                    if ((i & 0x1) != 1)
+                        _Numbers[i].Color = Colors.Red;
+                    else
+                        _Numbers[i].Color = Color.FromArgb(0xff, 0x11, 0x33, 0x11);
+                }
+            }
+                
             InitializeComponent();
-            t = new System.Timers.Timer(10000); // 10 Seconds of notification
-            t.Elapsed += T_Elapsed;
-            server = new RouletteHttp("http://localhost:4948/");
-            server.ReceivedPkgHandler += serverHandler;
-            server.StartServer();
+
+            this.DataContext = this;
+            _ExibitionTimer = new Timer(10000); // 10 Seconds of notification
+            _ExibitionTimer.Elapsed += T_Elapsed;
+            InstantiateServer();
+        }
+        public Num[] Numbers { get => _Numbers; set => _Numbers = value; }
+        private void InstantiateServer()
+        {
+            if(_Server == null)
+            {
+                _Server = new HttpWebservice<RouletteJsonModel>("http://localhost:4948/");
+                _Server.ReceivedPkgHandler += WebserverObjectHandler;
+                _Server.HttpWebserverException += WebServiceException;
+                _Server.StartServer();
+            }
+        }
+        private void WebServiceException(object sender, WebException e)
+        {
+            try
+            {
+                _Server.StopServer();
+            }
+            catch
+            {
+                _Server = null;
+            }
+            finally
+            {
+                InstantiateServer();
+                _Server.StartServer();
+            }
         }
         ~MainWindow()
         {
-            server = null;
-            t = null;
+            _Server = null;
+            _ExibitionTimer = null;
         }
-        private void serverHandler(object sender, RouletteHttp.RouletteEventArgs e)
+        private void WebserverObjectHandler(object sender, HttpWebServerEventArgs<RouletteJsonModel> e)
         {
-            //TODO: what to do with e.correlation ??
-            GlowButton(e.number);
+            int i;
+            if (Int32.TryParse(e.SchemaObject.Data.WinningNumber, out i))
+                this.Dispatcher.Invoke(() =>
+                {
+                    GlowButton(i);
+                });
         }
 
         /// <summary>
@@ -38,58 +131,39 @@ namespace PlayTech.Roulette
         /// <param name="e"></param>
         private void T_Elapsed(object sender, ElapsedEventArgs e)
         {
-            t.Stop();
-            //TODO: it's ugly, improve this code 
+            _ExibitionTimer.Stop();
             N0.IsActive = false;
-            N1.IsActive = false;
-            N2.IsActive = false;
-            N3.IsActive = false;
-            N4.IsActive = false;
-            N5.IsActive = false;
-            N6.IsActive = false;
-            N7.IsActive = false;
-            N8.IsActive = false;
-            N9.IsActive = false;
-            N10.IsActive = false;
-            N11.IsActive = false;
-            N12.IsActive = false;
-            N13.IsActive = false;
-            N14.IsActive = false;
-            N15.IsActive = false;
-            N16.IsActive = false;
-            N17.IsActive = false;
-            N18.IsActive = false;
-            N19.IsActive = false;
-            N20.IsActive = false;
-            N21.IsActive = false;
-            N22.IsActive = false;
-            N23.IsActive = false;
-            N24.IsActive = false;
-            N25.IsActive = false;
-            N26.IsActive = false;
-            N27.IsActive = false;
-            N28.IsActive = false;
-            N29.IsActive = false;
-            N30.IsActive = false;
-            N31.IsActive = false;
-            N32.IsActive = false;
-            N33.IsActive = false;
-            N34.IsActive = false;
-            N35.IsActive = false;
-            N36.IsActive = false;
-            Red.IsActive = false;
-            Black.IsActive = false;
-            Even.IsActive = false;
-            Odd.IsActive = false;
-            FirstDozen.IsActive = false;
-            SecondDozen.IsActive = false;
-            ThirdDozen.IsActive = false;
-            OneTo18.IsActive = false;
-            NineteenTo36.IsActive = false;
-            GroupA.IsActive = false;
-            GroupB.IsActive = false;
-            GroupC.IsActive = false;
+            this.Dispatcher.Invoke(() =>
+            {
+                foreach (var c in GetControls(this))
+                {
+                    if (c is SquarePannel sp )
+                    {
+                        sp.IsActive = false;
+                    }
+                    if(c is BigGreenPannel bgp)
+                    {
+                        bgp.IsActive = false;
+                    }
+                }
+            });
             Popup.Hide();
+        }
+        private IEnumerable<DependencyObject> GetControls(DependencyObject control)
+        {
+            if(control != null)
+            {
+                for(int i =0; i < VisualTreeHelper.GetChildrenCount(control);i++)
+                {
+                    DependencyObject cc = VisualTreeHelper.GetChild(control, i);
+                    if (cc != null)
+                        yield return cc;
+                    foreach(var c in GetControls(cc))
+                    {
+                        yield return c;
+                    }
+                }
+            }
         }
         /// <summary>
         /// Glow the buttons according with the number 
@@ -97,308 +171,40 @@ namespace PlayTech.Roulette
         /// <param name="number">Number between 0 - 36 </param>
         public void GlowButton(int number)
         {
-            switch(number)
-            {
-                case 0:
-                    N0.IsActive = true;
-                    t.Start();
-                    return;
-                case 1:
-                    N1.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 2:
-                    N2.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 3:
-                    N3.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 4:
-                    N4.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 5:
-                    N5.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 6:
-                    N6.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 7:
-                    N7.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 8:
-                    N8.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 9:
-                    N9.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 10:
-                    N10.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 11:
-                    N11.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 12:
-                    N12.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    FirstDozen.IsActive = true;
-                    break;
-                case 13:
-                    N13.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 14:
-                    N14.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 15:
-                    N15.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 16:
-                    N16.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 17:
-                    N17.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 18:
-                    N18.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    OneTo18.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 19:
-                    N19.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 20:
-                    N20.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 21:
-                    N21.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 22:
-                    N22.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 23:
-                    N23.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 24:
-                    N24.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    SecondDozen.IsActive = true;
-                    break;
-                case 25:
-                    N25.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 26:
-                    N26.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 27:
-                    N27.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 28:
-                    N28.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 29:
-                    N29.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 30:
-                    N30.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 31:
-                    N31.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupA.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 32:
-                    N32.IsActive = true;
-                    Even.IsActive = true;
-                    GroupB.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 33:
-                    N33.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupC.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 34:
-                    N34.IsActive = true;
-                    Even.IsActive = true;
-                    GroupA.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 35:
-                    N35.IsActive = true;
-                    Odd.IsActive = true;
-                    GroupB.IsActive = true;
-                    Black.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                case 36:
-                    N36.IsActive = true;
-                    Even.IsActive = true;
-                    GroupC.IsActive = true;
-                    Red.IsActive = true;
-                    NineteenTo36.IsActive = true;
-                    ThirdDozen.IsActive = true;
-                    break;
-                default:
-                    return;
-            }
+            if (number >= _Numbers.Length)
+                return;
+            _Numbers[number].IsActive = true;
+            
+            if (_Numbers[number].Color == Colors.Red)
+                Red.IsActive = true;
+            else
+                Black.IsActive = true;
+            if ((number & 0x1) == 1)
+                Even.IsActive = true;
+            else
+                Odd.IsActive = true;
 
+            if (number <= 18)
+                OneTo18.IsActive = true;
+            else
+                NineteenTo36.IsActive = true;
+
+            if (number <= 12)
+                FirstDozen.IsActive = true;
+            else if (number > 12 && number <= 24)
+                SecondDozen.IsActive = true;
+            else
+                ThirdDozen.IsActive = true;
+            if ((number % 3) == 0)
+                GroupC.IsActive = true;
+            else if (((number % 3) & 0x1) == 1)
+                GroupA.IsActive = true;
+            else
+                GroupB.IsActive = true;
             Popup.Show(number.ToString(), Red.IsActive ? "Red" : "Black", Odd.IsActive ? "Odd" : "Even",
                 FirstDozen.IsActive ? "First Dozen" : SecondDozen.IsActive ? "Second Dozen" : "Third Dozen",
-                GroupA.IsActive ? "Column A" : GroupB.IsActive ? "Column B" : "Column C", OneTo18.IsActive ? "Low" : "High");
-            t.Start();
+                GroupA.IsActive ? "Column A" : GroupB.IsActive ? "Column B" : "Column C", OneTo18.IsActive ? "Low" : "High");      
+            _ExibitionTimer.Start();     
         }
         /// <summary>
         /// Clean the resources before exit the application
@@ -407,9 +213,9 @@ namespace PlayTech.Roulette
         /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
-            server.StopServer();
-            t.Stop();
-            t.Dispose();
+            _Server.StopServer();
+            _ExibitionTimer.Stop();
+            _ExibitionTimer.Dispose();
         }
     }
 }

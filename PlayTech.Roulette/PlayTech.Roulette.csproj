@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -59,11 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="JsonModel.cs" />
     <Compile Include="PopUp.xaml.cs">
       <DependentUpon>PopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RouletteHttp.cs" />
     <Compile Include="BigGreenPannel.xaml.cs">
       <DependentUpon>BigGreenPannel.xaml</DependentUpon>
     </Compile>
@@ -131,6 +126,16 @@
     <None Include="Resources\buttomcyan.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Playtech.Roulette.Model\Playtech.Roulette.Model.csproj">
+      <Project>{acdb849d-988f-411c-913d-65cf23decc8b}</Project>
+      <Name>Playtech.Roulette.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayTech.Webservice\PlayTech.Webservice.csproj">
+      <Project>{792f5561-22b8-457e-a55f-cb810c936092}</Project>
+      <Name>PlayTech.Webservice</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

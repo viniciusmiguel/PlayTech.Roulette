@@ -52,7 +52,7 @@ namespace PlayTech.Roulette
                     }
                     else
                     {
-                        Rec.Fill = new SolidColorBrush(_oldColor);
+                        Rec.Fill = new SolidColorBrush(_fillcolor);
                         number.Foreground = IsRed ? Brushes.Black : Brushes.White;
                     }
                 }
@@ -83,7 +83,7 @@ namespace PlayTech.Roulette
 
         private bool _vertical;
         private bool _active;
-        private Color _oldColor;
+        private Color _fillcolor = Colors.Red;
         private bool _isImage;
         #endregion
 
@@ -150,11 +150,11 @@ namespace PlayTech.Roulette
         {
             if ((bool) e.NewValue)
             {
-                _oldColor = Colors.Red;
+                _fillcolor = Colors.Red;
             }
             else
             {
-                _oldColor = BackColor;
+                _fillcolor = BackColor;
             }
             Animate();
         }

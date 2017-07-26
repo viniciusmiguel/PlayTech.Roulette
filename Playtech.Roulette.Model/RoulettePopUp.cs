@@ -20,7 +20,7 @@ namespace Playtech.Roulette.Model
             set
             {
                 _visibility = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Visible"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Visibility"));
             }
         }
 
@@ -46,7 +46,7 @@ namespace Playtech.Roulette.Model
             set
             {
                 _group = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Column"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Group"));
             }
         }
 

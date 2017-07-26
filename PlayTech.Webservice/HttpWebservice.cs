@@ -10,10 +10,10 @@ namespace PlayTech.Webservice
     /// <summary>
     /// Http server implementation for receiving roulette bets
     /// </summary>
-    public class HttpWebservice<T> where T : class
+    public class HttpWebservice<T> : IDisposable where T : class
     {
-        private HttpListener listener = null;
-        private Thread t = null;
+        private HttpListener _listener;
+        private Thread _thread;
 
         /// <summary>
         /// Instantiate a Http Server
@@ -21,14 +21,9 @@ namespace PlayTech.Webservice
         /// <param name="url">the URL that the server answers</param>
         public HttpWebservice(string url) 
         {
-            listener = new HttpListener();
-            t = new Thread(T_main);
-            listener.Prefixes.Add(url);
-        }
-        ~HttpWebservice()
-        {
-            t = null;
-            listener = null;
+            _listener = new HttpListener();
+            _thread = new Thread(T_main);
+            _listener.Prefixes.Add(url);
         }
         /// <summary>
         /// Handler for Packets incoming from Http Server
@@ -47,23 +42,21 @@ namespace PlayTech.Webservice
             {
                 while(true)
                 {
-                    HttpListenerContext context = listener.GetContext(); // Pause until a request come
-                    string msg = "OK";
+                    var context = _listener.GetContext(); // Pause until a request come
+                    var msg = "OK";
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     if (context.Request.HasEntityBody) // If has a body deals, otherwise ignore it
                     {
-                        using (StreamReader reader = new StreamReader(context.Request.InputStream))
+                        using (var reader = new StreamReader(context.Request.InputStream))
                         {
                             var js = reader.ReadToEnd(); // Read the body and stores for JSON parse trial
                             try
                             {
                                 T schema = JsonConvert.DeserializeObject<T>(js);
-                                if (ReceivedPkgHandler != null)
-                                    ReceivedPkgHandler?.Invoke(this, new HttpWebServerEventArgs<T>()
-                                    {
-                                        SchemaObject = schema
-                                    });
-                               
+                                ReceivedPkgHandler?.Invoke(this, new HttpWebServerEventArgs<T>()
+                                {
+                                    SchemaObject = schema
+                                });
                             }
                             catch // The JSON provided not match the Schema, give to the user an answer and ignore the content
                             {
@@ -75,9 +68,9 @@ namespace PlayTech.Webservice
                     }
                     //Write to caller the appropriate answer
                     context.Response.ContentLength64 = Encoding.UTF8.GetByteCount(msg);
-                    using (Stream stream = context.Response.OutputStream)
+                    using (var stream = context.Response.OutputStream)
                     {
-                        using (StreamWriter writer = new StreamWriter(stream))
+                        using (var writer = new StreamWriter(stream))
                         {
                             writer.Write(msg);
                         }
@@ -99,17 +92,22 @@ namespace PlayTech.Webservice
         /// </summary>
         public void StartServer()
         {
-            t.Start();
-            listener.Start();
+            _thread.Start();
+            _listener.Start();
         }
         /// <summary>
         /// Stop the listener flow and abort the server thread
         /// </summary>
         public void StopServer()
         {
-            listener.Stop();
+            _listener.Stop();
             Thread.Sleep(5);
-            t.Abort();
+            _thread.Abort();
+        }
+        public void Dispose()
+        {
+            _thread = null;
+            _listener = null;
         }
     }
 }
